@@ -9,6 +9,15 @@ public class User {
 
     boolean userFollowed;
 
+    public User(String userName, String userDescription, boolean userFollowed) {
+        this.userName = userName;
+        this.userDescription = userDescription;
+        this.userFollowed = userFollowed;
+    }
+
+    public User() {
+    }
+
     public String getUserName() {
         return userName;
     }

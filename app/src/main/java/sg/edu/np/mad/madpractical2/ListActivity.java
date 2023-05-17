@@ -10,63 +10,49 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
 
+    ArrayList<User> userList = new ArrayList<>();
     final String title = "List Activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         Log.v(title, "Create!");
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.v(title, "Resume");
+        for (int i = 0; i < 20; i++) {
+            String randomName = generateRandomName();
+            String randomDescription = generateRandomDescription();
+            boolean randomFollowed = generateRandomFollowedValue();
 
-        ImageView imageView = findViewById(R.id.imageView2);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v(title, "Image clicked!");
-                viewProfile();
-            }
-        });
+            User user = new User(randomName, randomDescription, randomFollowed);
+            userList.add(user);
+        }
     }
 
     private int randomInteger(){
         Random ran = new Random();
-        int myRandomNumber = ran.nextInt(Integer.MAX_VALUE - 1) + 1;
+        int myRandomNumber = ran.nextInt();
         return myRandomNumber;
     }
 
-    private void viewProfile(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("MADness");
-        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v(title, "View Profile");
-                int randomInt = randomInteger();
+    private String generateRandomName(){
+        String name = "Name";
+        Integer num = randomInteger();
+        return name + num;
+    }
 
-                Intent intent = new Intent(ListActivity.this, MainActivity.class);
-                intent.putExtra("randomInt", randomInt);
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.v(title, "Close");
-                dialogInterface.dismiss();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.setTitle("Profile");
-        alert.show();
+    private String generateRandomDescription(){
+        String desc = "Description ";
+        Integer num = randomInteger();
+        return desc + num;
+    }
+
+    private boolean generateRandomFollowedValue(){
+        Random random = new Random();
+        return random.nextBoolean();
     }
 }

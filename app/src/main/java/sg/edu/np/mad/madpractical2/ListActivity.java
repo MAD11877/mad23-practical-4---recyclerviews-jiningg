@@ -2,6 +2,9 @@ package sg.edu.np.mad.madpractical2;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +34,13 @@ public class ListActivity extends AppCompatActivity {
             User user = new User(randomName, randomDescription, randomFollowed);
             userList.add(user);
         }
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        UserAdapter userAdapter = new UserAdapter(userList);
+        recyclerView.setAdapter(userAdapter);
     }
+
 
     private int randomInteger(){
         Random ran = new Random();
@@ -54,5 +63,31 @@ public class ListActivity extends AppCompatActivity {
     private boolean generateRandomFollowedValue(){
         Random random = new Random();
         return random.nextBoolean();
+    }
+
+    private void viewProfile(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("MADness");
+        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v(title, "View Profile");
+                int randomInt = randomInteger();
+
+                Intent intent = new Intent(ListActivity.this, MainActivity.class);
+                intent.putExtra("randomInt", randomInt);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.v(title, "Close");
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.setTitle("Profile");
+        alert.show();
     }
 }

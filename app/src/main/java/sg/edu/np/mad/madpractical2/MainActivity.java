@@ -13,45 +13,64 @@ import android.widget.ToggleButton;
 public class MainActivity extends AppCompatActivity {
 
     final String TITLE = "Main Activity";
+
+    String myRecvUsername;
+    String myRecvDesc;
+    String myRecvFollow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.v(TITLE, "Create!");
 
-        User myUser =  new User();
-        myUser.userName = "MAD";
+        //User myUser =  new User();
 
-        myUser.userFollowed = false;
-        myUser.isUserFollowed();
+        //myUser.userFollowed = false;
+        //myUser.isUserFollowed();
 
+        //TextView tv = findViewById(R.id.textView2);
+        //Intent myRecvIntent = getIntent();
+        //String name = myUser.getUserName();
+        //tv.setText(name);
+
+        Intent myRecvIntent = getIntent();
+        String userName = myRecvIntent.getStringExtra("userName");
+        String userDescription = myRecvIntent.getStringExtra("userDescription");
+        boolean userFollowed = myRecvIntent.getBooleanExtra("userFollowed", false);
         TextView tv = findViewById(R.id.textView2);
-        int randomInt = getIntent().getIntExtra("randomInt", 0);
-        String name = myUser.getUserName();
-        tv.setText(name + " " + randomInt);
+        tv.setText(userName);
 
-        TextView tv1 = findViewById(R.id.textView);
-        tv1.setText("Lorem ipsum dolor sit amet consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua");
+        final boolean[] followed = {userFollowed};
 
         ToggleButton togBut1 = findViewById(R.id.toggleButton);
-        togBut1.setText(myUser.isUserFollowed() ? "Unfollow" : "Follow");
+        togBut1.setText(userFollowed ? "Unfollow" : "Follow");
 
         togBut1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myUser.isUserFollowed()) {
+                if (followed[0]) {
                     togBut1.setText("Follow");
                     Log.v(TITLE, "Toggle Button: Unfollow clicked!");
-                    myUser.setUserFollowed(false);
+                    followed[0] = false;
                     Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
                 } else {
                     togBut1.setText("Unfollow");
                     Log.v(TITLE, "Toggle Button: Follow clicked!");
-                    myUser.setUserFollowed(true);
+                    followed[0] = true;
                     Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
+                }
+
+                for (User user : ListActivity.userList) {
+                    if (user.getUserName().equals(myRecvUsername)) {
+                        user.setUserFollowed(followed[0]);
+                        break;
+                    }
                 }
             }
         });
+
+        TextView tv1 = findViewById(R.id.textView);
+        tv1.setText(userDescription);
 
         ToggleButton togBut2 = findViewById(R.id.toggleButton3);
         togBut2.setText("Message");

@@ -20,7 +20,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
-        UserViewHolder holder = new UserViewHolder(view);
+        UserViewHolder holder = new UserViewHolder(view, list_users);
         return holder;
     }
 
@@ -36,6 +36,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public int getItemCount(){
         return list_users.size();
     }
-
-    private static User clickedUser;
 }

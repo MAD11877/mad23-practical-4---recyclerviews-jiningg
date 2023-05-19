@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
 
-    ArrayList<User> userList = new ArrayList<>();
+    static ArrayList<User> userList = new ArrayList<>();
     final String title = "List Activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setAdapter(userAdapter);
     }
 
-
     private int randomInteger(){
         Random ran = new Random();
         int myRandomNumber = ran.nextInt();
@@ -63,31 +62,5 @@ public class ListActivity extends AppCompatActivity {
     private boolean generateRandomFollowedValue(){
         Random random = new Random();
         return random.nextBoolean();
-    }
-
-    private void viewProfile(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("MADness");
-        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v(title, "View Profile");
-                int randomInt = randomInteger();
-
-                Intent intent = new Intent(ListActivity.this, MainActivity.class);
-                intent.putExtra("randomInt", randomInt);
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.v(title, "Close");
-                dialogInterface.dismiss();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.setTitle("Profile");
-        alert.show();
     }
 }

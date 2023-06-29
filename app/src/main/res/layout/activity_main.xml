@@ -50,7 +50,7 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="300dp"
-                android:layout_height="66dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="12dp"
-                    android:text="MADPractical"
+                    android:text="  MADPractical"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold"

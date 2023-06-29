@@ -6,117 +6,49 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity {
+    final String title = "Main Activity";
 
-    final String TITLE = "Main Activity";
-
-    String myRecvUsername;
-    String myRecvDesc;
-    String myRecvFollow;
+    User myUser = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.v(TITLE, "Create!");
+        Log.v(title, "Create!");
 
-        //User myUser =  new User();
+        Intent rec = getIntent();
+        int value = rec.getIntExtra("id",0);
+        myUser = ListActivity.userList.get(value);
 
-        //myUser.userFollowed = false;
-        //myUser.isUserFollowed();
-
-        //TextView tv = findViewById(R.id.textView2);
-        //Intent myRecvIntent = getIntent();
-        //String name = myUser.getUserName();
-        //tv.setText(name);
-
-        Intent myRecvIntent = getIntent();
-        String userName = myRecvIntent.getStringExtra("userName");
-        String userDescription = myRecvIntent.getStringExtra("userDescription");
-        boolean userFollowed = myRecvIntent.getBooleanExtra("userFollowed", false);
-        TextView tv = findViewById(R.id.textView2);
-        tv.setText(userName);
-
-        final boolean[] followed = {userFollowed};
-
-        ToggleButton togBut1 = findViewById(R.id.toggleButton);
-        togBut1.setText(userFollowed ? "Unfollow" : "Follow");
-
-        togBut1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (followed[0]) {
-                    togBut1.setText("Follow");
-                    Log.v(TITLE, "Toggle Button: Unfollow clicked!");
-                    followed[0] = false;
-                    Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
-                } else {
-                    togBut1.setText("Unfollow");
-                    Log.v(TITLE, "Toggle Button: Follow clicked!");
-                    followed[0] = true;
-                    Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
-                }
-
-                for (User user : ListActivity.userList) {
-                    if (user.getUserName().equals(myRecvUsername)) {
-                        user.setUserFollowed(followed[0]);
-                        break;
-                    }
-                }
-            }
-        });
-
-        TextView tv1 = findViewById(R.id.textView);
-        tv1.setText(userDescription);
-
-        ToggleButton togBut2 = findViewById(R.id.toggleButton3);
-        togBut2.setText("Message");
-
-        togBut2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togBut2.getTextOn();
-                Log.v(TITLE, "Toggle Button: Message clicked!");
-            }
-        });
+        TextView name = findViewById(R.id.textView2);
+        name.setText(myUser.getUserName());
+        TextView description = findViewById(R.id.textView);
+        description.setText(myUser.getUserDescription());
+        setFollowBtn();
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        Log.v(TITLE, "Start!");
+    private void setFollowBtn() {
+        Button follow = findViewById(R.id.followBtn);
+        if(myUser.userFollowed) {
+            follow.setText("Unfollow");
+            Log.v(title,"Button: Follow clicked! Now Unfollowing");
+        }
+        else {
+            follow.setText("Follow");
+            Log.v(title,"Button: Follow clicked!Now Following");
+        }
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.v(TITLE, "Resume");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.v(TITLE, "Paused");
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        Log.v(TITLE, "Stop!");
-    }
-
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-        Log.v(TITLE, "Restart");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.v(TITLE, "Destroy");
+    public void onFollowClick(View v) {
+        myUser.userFollowed = !myUser.userFollowed;
+        if(myUser.userFollowed)
+            Toast.makeText(this, "Followed", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this,"Unfollowed", Toast.LENGTH_SHORT).show();
+        setFollowBtn();
     }
 }

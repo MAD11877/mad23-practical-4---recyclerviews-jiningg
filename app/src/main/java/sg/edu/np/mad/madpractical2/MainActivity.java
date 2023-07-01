@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     final String title = "Main Activity";
-
     User myUser = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.v(title, "Create!");
 
-        Intent rec = getIntent();
-        int value = rec.getIntExtra("id",0);
+        Intent intent = getIntent();
+        int value = intent.getIntExtra("id",0);
         myUser = ListActivity.userList.get(value);
 
         TextView name = findViewById(R.id.textView2);

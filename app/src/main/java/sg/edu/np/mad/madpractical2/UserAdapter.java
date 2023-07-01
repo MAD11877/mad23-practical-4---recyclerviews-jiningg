@@ -57,7 +57,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
         holder.txt.setText(user.userName);
         holder.desc.setText(user.userDescription);
 
-
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

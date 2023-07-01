@@ -31,7 +31,7 @@ public class ListActivity extends AppCompatActivity {
             String randomDescription = generateRandomDescription();
             boolean randomFollowed = generateRandomFollowedValue();
 
-            User user = new User(randomName, randomDescription, randomFollowed);
+            User user = new User(randomName, randomDescription, i, randomFollowed);
             userList.add(user);
         }
 

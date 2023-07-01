@@ -9,9 +9,10 @@ public class User {
 
     boolean userFollowed;
 
-    public User(String userName, String userDescription, boolean userFollowed) {
+    public User(String userName, String userDescription, int userId, boolean userFollowed) {
         this.userName = userName;
         this.userDescription = userDescription;
+        this.userId = userId;
         this.userFollowed = userFollowed;
     }
 
